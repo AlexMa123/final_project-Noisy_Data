@@ -4,7 +4,9 @@ from math import ceil
 
 def plot_one_sample(X, Y, Y_pred=None, ax=None):
     assert ax is not None
-    ax.imshow(X.view(20, 20).T, cmap="Greys")
+    X = X - X.mean()
+    X = X / X.std()
+    ax.imshow(X.reshape(20, 20).T, cmap="Greys")
     ax.set_xticks([])
     ax.set_yticks([])
     if Y_pred is None:
@@ -14,6 +16,26 @@ def plot_one_sample(X, Y, Y_pred=None, ax=None):
 
 
 def plot_samples(X, Y, Y_pred=None, nrows=1, figsize=(8, 6)):
+    """Plot samples
+
+    Parameters
+    ----------
+    X : Images, Tensor or Array
+        (N, 400)
+    Y : True label
+        (N, )
+    Y_pred : predicted Label, optional
+        (N, ), by default None
+    nrows : int, optional
+        num of nrows for visualize the images, by default 1
+    figsize : tuple, optional
+        figure size, by default (8, 6)
+
+    Returns
+    -------
+    fig, ax
+        the same with what you get from plt.subplots()
+    """
     images_shape = X.size()
     if len(images_shape) == 2:
         total_image = images_shape[0]
